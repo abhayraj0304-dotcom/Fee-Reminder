@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FeeTrack — Greenfield School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08090d;--surface:#0d0f18;--card:#111420;--card2:#161a28;
+  --border:#1c2035;--border2:#242840;
+  --accent:#5b72f0;--accent2:#9b6df5;--ag:rgba(91,114,240,.15);
+  --green:#0fd98b;--gd:rgba(15,217,139,.1);
+  --yellow:#f5c518;--yd:rgba(245,197,24,.1);
+  --red:#ff4565;--rd:rgba(255,69,101,.1);
+  --blue:#38c4fb;--bd:rgba(56,196,251,.1);
+  --gemini:#4285F4;--gemini2:#EA4335;--gemigrad:rgba(66,133,244,.15);
+  --text:#eef0fa;--text2:#8892b8;--text3:#4a5278;
+  --f:'DM Sans',sans-serif;--fd:'Syne',sans-serif;
+  --r:10px;--r2:16px;--r3:20px
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--f);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.7}
+.blob{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;animation:blobmove 20s ease-in-out infinite alternate}
+.b1{width:600px;height:600px;background:rgba(66,133,244,.05);top:-150px;left:-120px}
+.b2{width:500px;height:500px;background:rgba(234,67,53,.04);bottom:-100px;right:-100px;animation-delay:-10s}
+@keyframes blobmove{0%{transform:translate(0,0) scale(1)}100%{transform:translate(40px,30px) scale(1.05)}}
+.wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:2rem 1.5rem}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.5rem;background:rgba(8,9,13,.9);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:38px;height:38px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#fff;box-shadow:0 0 24px rgba(91,114,240,.45)}
+.logo-name{font-family:var(--fd);font-size:1.15rem;font-weight:800;letter-spacing:-.5px}
+.logo-sub{font-size:.68rem;color:var(--text3);margin-top:1px}
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gemini-badge{display:flex;align-items:center;gap:6px;background:var(--gemigrad);border:1px solid rgba(66,133,244,.3);border-radius:20px;padding:5px 12px;font-size:.7rem;font-weight:700;color:var(--gemini);font-family:var(--fd);letter-spacing:.03em}
+.gemini-dot{width:7px;height:7px;border-radius:50%;background:var(--gemini);box-shadow:0 0 8px var(--gemini);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;border-radius:var(--r);padding:9px 17px;font-size:.8rem;font-weight:600;font-family:var(--f);cursor:pointer;border:none;transition:all .2s;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 0 20px rgba(91,114,240,.3)}
+.btn-primary:hover{box-shadow:0 0 36px rgba(91,114,240,.6);transform:translateY(-1px)}
+.btn-primary:active{transform:translateY(0)}
+.btn-gemini{background:linear-gradient(135deg,#4285F4,#EA4335,#FBBC05,#34A853);color:#fff;box-shadow:0 0 20px rgba(66,133,244,.3)}
+.btn-gemini:hover{box-shadow:0 0 36px rgba(66,133,244,.5);transform:translateY(-1px)}
+.btn-ghost{background:var(--card);color:var(--text2);border:1px solid var(--border2)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:var(--ag)}
+.btn-sm{padding:6px 12px;font-size:.75rem;border-radius:8px}
+.btn-danger{background:var(--rd);color:var(--red);border:1px solid rgba(255,69,101,.3)}
+.btn-danger:hover{background:rgba(255,69,101,.25);border-color:var(--red)}
+
+/* HERO */
+.hero{padding:2.5rem 0 1.75rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.hero h1{font-family:var(--fd);font-size:2.4rem;font-weight:800;line-height:1.08;letter-spacing:-.05em}
+.hero h1 .grad{background:linear-gradient(110deg,var(--gemini),#EA4335 45%,#FBBC05);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--text2);font-size:.88rem;margin-top:.55rem;max-width:460px;line-height:1.65}
+.year-pill{background:var(--card2);border:1px solid var(--border2);border-radius:30px;padding:7px 15px;font-size:.72rem;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:6px;flex-shrink:0}
+.year-pill i{color:var(--gemini)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+@media(max-width:840px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.stats{grid-template-columns:1fr}}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem 1.3rem;overflow:hidden;position:relative;transition:border-color .25s,transform .25s;animation:fadeUp .45s both}
+.stat:hover{transform:translateY(-3px)}
+.stat::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none;border-radius:var(--r2)}
+.stat.blue:hover{border-color:rgba(91,114,240,.4)}.stat.blue::before{background:radial-gradient(ellipse at 10% 90%,rgba(91,114,240,.1),transparent 70%)}
+.stat.green:hover{border-color:rgba(15,217,139,.35)}.stat.green::before{background:radial-gradient(ellipse at 10% 90%,rgba(15,217,139,.1),transparent 70%)}
+.stat.yellow:hover{border-color:rgba(245,197,24,.35)}.stat.yellow::before{background:radial-gradient(ellipse at 10% 90%,rgba(245,197,24,.1),transparent 70%)}
+.stat.red:hover{border-color:rgba(255,69,101,.35)}.stat.red::before{background:radial-gradient(ellipse at 10% 90%,rgba(255,69,101,.1),transparent 70%)}
+.stat:hover::before{opacity:1}
+.stat:nth-child(1){animation-delay:.05s}.stat:nth-child(2){animation-delay:.1s}.stat:nth-child(3){animation-delay:.15s}.stat:nth-child(4){animation-delay:.2s}
+.stat-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.85rem}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.stat.blue .stat-icon{background:var(--ag);color:var(--accent)}
+.stat.green .stat-icon{background:var(--gd);color:var(--green)}
+.stat.yellow .stat-icon{background:var(--yd);color:var(--yellow)}
+.stat.red .stat-icon{background:var(--rd);color:var(--red)}
+.stat-pill{font-size:.65rem;font-weight:700;padding:3px 9px;border-radius:20px}
+.pill-green{background:var(--gd);color:var(--green)}.pill-yellow{background:var(--yd);color:var(--yellow)}.pill-red{background:var(--rd);color:var(--red)}.pill-blue{background:var(--ag);color:var(--accent)}
+.stat-label{font-size:.68rem;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.stat-value{font-family:var(--fd);font-size:1.75rem;font-weight:800;letter-spacing:-.04em;line-height:1}
+.stat.blue .stat-value{color:var(--accent)}.stat.green .stat-value{color:var(--green)}.stat.yellow .stat-value{color:var(--yellow)}.stat.red .stat-value{color:var(--red)}
+.stat-sub{font-size:.72rem;color:var(--text3);margin-top:5px}
+
+/* COLLECTION BAR */
+.cbar-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:1.1rem 1.4rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.cbar-info{min-width:140px}
+.cbar-info .label{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.cbar-info .val{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--text)}
+.cbar-track{flex:1;min-width:180px;height:8px;background:var(--border2);border-radius:6px;position:relative;overflow:visible}
+.cbar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#4285F4,#EA4335,#0fd98b);position:relative;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.cbar-fill::after{content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%);width:16px;height:16px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green),0 0 24px rgba(15,217,139,.4);border:2px solid var(--bg)}
+.cbar-pct{font-family:var(--fd);font-size:1.4rem;font-weight:800;color:var(--green);white-space:nowrap}
+
+/* API KEY BANNER */
+.api-banner{background:linear-gradient(90deg,rgba(66,133,244,.1),rgba(234,67,53,.08),rgba(251,188,5,.08),rgba(52,168,83,.08));border:1px solid rgba(66,133,244,.3);border-radius:var(--r2);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.api-banner-icon{width:36px;height:36px;border-radius:10px;background:rgba(66,133,244,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gemini-g{font-family:var(--fd);font-size:1rem;font-weight:800;background:linear-gradient(135deg,#4285F4,#EA4335);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.api-banner-text{flex:1;min-width:200px}
+.api-banner-text strong{font-size:.85rem;color:var(--text);display:block;margin-bottom:2px}
+.api-banner-text span{font-size:.77rem;color:var(--text2)}
+.api-key-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex:1;min-width:200px}
+.api-key-input{flex:1;min-width:180px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:8px 13px;font-size:.82rem;color:var(--text);font-family:var(--f);outline:none;transition:all .2s}
+.api-key-input:focus{border-color:var(--gemini);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
+.api-key-input::placeholder{color:var(--text3)}
+.api-key-connected{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--green);padding:8px 0}
+.api-key-connected i{color:var(--green)}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.section-heading{font-family:var(--fd);font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.count-chip{font-size:.68rem;background:var(--ag);color:var(--accent);border:1px solid rgba(91,114,240,.3);border-radius:20px;padding:3px 10px;font-family:var(--f)}
+.toolbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.search-wrap{position:relative}
+.search-wrap i{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.78rem;pointer-events:none}
+.search-input{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px 8px 32px;font-size:.82rem;color:var(--text);font-family:var(--f);outline:none;width:215px;transition:all .2s}
+.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(91,114,240,.12)}
+.search-input::placeholder{color:var(--text3)}
+.filters{display:flex;gap:5px;flex-wrap:wrap}
+.filter-btn{font-size:.73rem;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:var(--f);font-weight:500;transition:all .15s}
+.filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+.filter-btn.active{background:var(--ag);color:var(--accent);border-color:rgba(91,114,240,.45)}
+
+/* TABLE */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:.875rem}
+thead tr{background:var(--surface);border-bottom:1px solid var(--border)}
+th{padding:11px 16px;text-align:left;font-size:.65rem;font-weight:700;font-family:var(--fd);text-transform:uppercase;letter-spacing:.1em;color:var(--text3);white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s}
+th:hover{color:var(--text2)}
+th.sort-asc::after{content:'  ↑';color:var(--accent)}
+th.sort-desc::after{content:'  ↓';color:var(--accent)}
+td{padding:13px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{transition:background .15s;cursor:default}
+tbody tr:hover td{background:rgba(255,255,255,.012)}
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;font-family:var(--fd);flex-shrink:0;letter-spacing:.02em}
+.sc{display:flex;align-items:center;gap:10px}
+.sname{font-weight:500;font-size:.875rem}
+.scls{font-size:.7rem;color:var(--text3);margin-top:1px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:.67rem;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;font-family:var(--fd);letter-spacing:.03em}
+.badge i{font-size:.6rem}
+.badge.paid{background:var(--gd);color:var(--green);border:1px solid rgba(15,217,139,.2)}
+.badge.overdue{background:var(--rd);color:var(--red);border:1px solid rgba(255,69,101,.2)}
+.badge.pending{background:var(--yd);color:var(--yellow);border:1px solid rgba(245,197,24,.2)}
+.pgwrap{display:flex;align-items:center;gap:8px}
+.pgbar{width:76px;height:5px;background:var(--border2);border-radius:4px;overflow:hidden;flex-shrink:0}
+.pgfill{height:100%;border-radius:4px;transition:width .5s}
+.pgpct{font-size:.72rem;color:var(--text2);min-width:28px;font-weight:600}
+.amt{font-weight:600;font-size:.875rem;font-variant-numeric:tabular-nums}
+.amt-due{font-size:.7rem;color:var(--text3);margin-top:2px}
+.btn-remind{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(91,114,240,.4);background:var(--ag);color:var(--accent);border-radius:8px;padding:6px 12px;font-size:.75rem;font-weight:600;font-family:var(--f);cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-remind:hover{background:rgba(91,114,240,.25);border-color:var(--accent);box-shadow:0 0 14px rgba(91,114,240,.25)}
+.btn-reminded{border-color:rgba(15,217,139,.35)!important;background:var(--gd)!important;color:var(--green)!important}
+.btn-pay{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(15,217,139,.4);background:var(--gd);color:var(--green);border-radius:8px;padding:6px 12px;font-size:.75rem;font-weight:600;font-family:var(--f);cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-pay:hover{background:rgba(15,217,139,.2);box-shadow:0 0 14px rgba(15,217,139,.2)}
+.btn-del{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(255,69,101,.25);background:none;color:var(--text3);border-radius:8px;padding:6px 10px;font-size:.75rem;cursor:pointer;transition:all .2s}
+.btn-del:hover{border-color:var(--red);color:var(--red);background:var(--rd)}
+.btn-done-d{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(15,217,139,.2);background:var(--gd);color:var(--green);border-radius:8px;padding:6px 12px;font-size:.75rem;font-weight:600;font-family:var(--f);cursor:default;opacity:.65}
+.tfooter{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;padding:11px 16px;border-top:1px solid var(--border);background:var(--surface);font-size:.78rem;color:var(--text2)}
+.tfooter b{color:var(--text);font-weight:600}
+.empty-row td{text-align:center;padding:3.5rem;color:var(--text3);font-size:.88rem}
+.empty-icon{font-size:2.2rem;margin-bottom:.75rem;opacity:.25}
+
+/* OVERLAY / MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:1rem}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--card2);border:1px solid var(--border2);border-radius:var(--r3);padding:1.75rem;width:100%;max-width:540px;transform:translateY(22px) scale(.97);transition:transform .28s cubic-bezier(.34,1.4,.64,1);max-height:92vh;overflow-y:auto}
+.overlay.open .modal{transform:none}
+.mhead{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem}
+.mtitle{font-family:var(--fd);font-size:1.2rem;font-weight:800;letter-spacing:-.03em}
+.msub{font-size:.78rem;color:var(--text2);margin-top:4px}
+.mclose{background:none;border:none;color:var(--text3);cursor:pointer;font-size:1.1rem;padding:4px;line-height:1;transition:color .15s;border-radius:6px}
+.mclose:hover{color:var(--text);background:var(--border)}
+
+/* FORM */
+.frow{margin-bottom:1rem}
+.flabel{display:block;font-size:.72rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.finput,.fselect{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:10px 13px;font-size:.875rem;color:var(--text);font-family:var(--f);outline:none;transition:all .2s}
+.finput:focus,.fselect:focus{border-color:var(--gemini);box-shadow:0 0 0 3px rgba(66,133,244,.12)}
+.finput::placeholder{color:var(--text3)}
+.fselect{cursor:pointer;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5278' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.fselect option{background:var(--card2)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.fgrid{grid-template-columns:1fr}}
+.mactions{display:flex;gap:8px;justify-content:flex-end;margin-top:1.5rem}
+.ferr{font-size:.75rem;color:var(--red);margin-top:4px;display:none}
+.ferr.show{display:block}
+
+/* INFO CARDS */
+.info-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1.25rem}
+@media(max-width:460px){.info-cards{grid-template-columns:1fr 1fr}}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px}
+.info-card .ic-label{font-size:.66rem;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.info-card .ic-val{font-family:var(--fd);font-size:1.1rem;font-weight:700;line-height:1}
+
+/* AI PANEL */
+.ai-panel{background:linear-gradient(135deg,rgba(66,133,244,.07),rgba(234,67,53,.05),rgba(52,168,83,.05));border:1px solid rgba(66,133,244,.2);border-radius:var(--r2);padding:1.1rem;margin-top:1.1rem}
+.ai-panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.ai-panel-title{display:flex;align-items:center;gap:7px;font-size:.75rem;font-weight:700;color:var(--gemini);font-family:var(--fd);letter-spacing:.03em}
+.ai-msg{font-size:.82rem;line-height:1.7;color:var(--text2);min-height:80px;white-space:pre-wrap;word-break:break-word}
+.ai-loading{display:flex;align-items:center;gap:10px;min-height:60px}
+.dots{display:flex;gap:5px;align-items:center}
+.dots span{width:7px;height:7px;border-radius:50%;opacity:.4;animation:dp .9s ease-in-out infinite}
+.dots span:nth-child(1){animation-delay:0s;background:#4285F4}
+.dots span:nth-child(2){animation-delay:.15s;background:#EA4335}
+.dots span:nth-child(3){animation-delay:.3s;background:#FBBC05}
+.dots span:nth-child(4){animation-delay:.45s;background:#34A853}
+@keyframes dp{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+.ai-actions{display:flex;gap:7px;margin-top:.9rem;flex-wrap:wrap}
+.btn-ai-act{font-size:.73rem;padding:5px 12px;border:1px solid var(--border2);background:none;color:var(--text2);border-radius:7px;cursor:pointer;font-family:var(--f);font-weight:500;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.btn-ai-act:hover{border-color:var(--gemini);color:var(--gemini)}
+.btn-ai-act.wa:hover{border-color:#25d366;color:#25d366}
+
+/* MODEL SELECTOR */
+.model-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
+.model-pill{font-size:.68rem;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text3);cursor:pointer;font-family:var(--f);font-weight:500;transition:all .15s}
+.model-pill.active{background:var(--gemigrad);color:var(--gemini);border-color:rgba(66,133,244,.4)}
+
+/* BULK LIST */
+.bulk-list{max-height:210px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin:.75rem 0}
+.bulk-item{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:9px 12px;font-size:.82rem;gap:8px}
+.bi-left{display:flex;align-items:center;gap:8px}
+.bi-name{font-weight:500}
+.bi-cls{font-size:.7rem;color:var(--text3)}
+.bi-due{font-size:.72rem;color:var(--text3);white-space:nowrap}
+
+/* PAY MODAL */
+.pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1rem 0}
+.edit-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:12px}
+.edit-section-title{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-family:var(--fd);font-weight:700}
+.confirm-icon{text-align:center;margin:1rem 0;font-size:2.5rem}
+.char-count{font-size:.68rem;color:var(--text3);text-align:right;margin-top:3px}
+.api-warn{font-size:.68rem;color:var(--yellow);display:none;align-items:center;gap:5px}
+.api-warn.show{display:flex}
+
+/* TOAST */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;background:var(--card2);border:1px solid var(--border2);border-radius:var(--r2);padding:12px 18px;font-size:.84rem;color:var(--text);display:flex;align-items:center;gap:10px;opacity:0;transform:translateY(14px);transition:all .25s;pointer-events:none;box-shadow:0 8px 48px rgba(0,0,0,.55);max-width:340px}
+#toast.show{opacity:1;transform:none}
+#toast.s{border-color:rgba(15,217,139,.4);color:var(--green)}
+#toast.e{border-color:rgba(255,69,101,.4);color:var(--red)}
+#toast.i{border-color:rgba(66,133,244,.4);color:var(--gemini)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+@media(max-width:780px){th:nth-child(5),td:nth-child(5){display:none}.hero h1{font-size:1.85rem}}
+@media(max-width:600px){th:nth-child(2),td:nth-child(2){display:none}.wrap{padding:1rem}.topbar{padding:.75rem 1rem}}
+@media(max-width:460px){th:nth-child(3),td:nth-child(3){display:none}.topbar-actions .btn-ghost{display:none}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div>
+      <div class="logo-name">FeeTrack</div>
+      <div class="logo-sub">Greenfield Public School</div>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <div class="gemini-badge" id="gemini-badge" style="display:none">
+      <div class="gemini-dot"></div>
+      <span>Gemini AI Active</span>
+    </div>
+    <button class="btn btn-ghost" onclick="openAddModal()"><i class="fa-solid fa-user-plus"></i> Add Student</button>
+    <button class="btn btn-gemini" onclick="openBulkModal()"><i class="fa-solid fa-robot"></i> AI Bulk Reminders</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <h1>Fee <span class="grad">Management</span><br>Dashboard</h1>
+      <p>Track collections, manage students, and send Gemini AI-powered personalized fee reminders with one click.</p>
+    </div>
+    <div class="year-pill"><i class="fa-solid fa-calendar-alt"></i> Academic Year 2025–26</div>
+  </div>
+
+  <!-- GEMINI API KEY BANNER -->
+  <div class="api-banner" id="api-banner">
+    <div class="api-banner-icon"><span class="gemini-g">G</span></div>
+    <div class="api-banner-text">
+      <strong>Connect Google Gemini AI</strong>
+      <span>Paste your key from <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--gemini)">aistudio.google.com/apikey</a> — stored only in browser memory, never sent anywhere</span>
+    </div>
+    <div class="api-key-form">
+      <input class="api-key-input" id="apiKeyInput" type="password" placeholder="AIza… paste your Gemini API key here"/>
+      <button class="btn btn-gemini btn-sm" onclick="saveApiKey()"><i class="fa-solid fa-plug"></i> Connect & Test</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat blue">
+      <div class="stat-row"><div class="stat-icon"><i class="fa-solid fa-users"></i></div><span class="stat-pill pill-blue">Enrolled</span></div>
+      <div class="stat-label">Total Students</div>
+      <div class="stat-value" id="s-total">0</div>
+      <div class="stat-sub">Across all classes</div>
+    </div>
+    <div class="stat green">
+      <div class="stat-row"><div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div><span class="stat-pill pill-green">↑ Good</span></div>
+      <div class="stat-label">Fees Collected</div>
+      <div class="stat-value" id="s-paid">₹0</div>
+      <div class="stat-sub" id="s-paid-sub">0 students fully paid</div>
+    </div>
+    <div class="stat yellow">
+      <div class="stat-row"><div class="stat-icon"><i class="fa-solid fa-clock"></i></div><span class="stat-pill pill-yellow">Pending</span></div>
+      <div class="stat-label">Outstanding</div>
+      <div class="stat-value" id="s-outstanding">₹0</div>
+      <div class="stat-sub" id="s-pend-sub">0 students due</div>
+    </div>
+    <div class="stat red">
+      <div class="stat-row"><div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><span class="stat-pill pill-red">Urgent</span></div>
+      <div class="stat-label">Overdue Students</div>
+      <div class="stat-value" id="s-overdue">0</div>
+      <div class="stat-sub">Need immediate action</div>
+    </div>
+  </div>
+
+  <!-- COLLECTION BAR -->
+  <div class="cbar-wrap">
+    <div class="cbar-info">
+      <div class="label">Collection Rate</div>
+      <div class="val" id="cbar-val">Computing…</div>
+    </div>
+    <div class="cbar-track"><div class="cbar-fill" id="cbar-fill" style="width:0%"></div></div>
+    <div class="cbar-pct" id="cbar-pct">0%</div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="section-heading">Student Records <span class="count-chip" id="count-chip">0</span></div>
+    <div class="toolbar-right">
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input class="search-input" id="searchInput" type="text" placeholder="Search name or class…" oninput="renderTable()"/>
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('overdue',this)">Overdue</button>
+        <button class="filter-btn" onclick="setFilter('pending',this)">Pending</button>
+        <button class="filter-btn" onclick="setFilter('paid',this)">Paid</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortBy('name',this)">Student</th>
+          <th onclick="sortBy('fee',this)">Total Fee</th>
+          <th onclick="sortBy('due',this)">Due Date</th>
+          <th onclick="sortBy('status',this)">Status</th>
+          <th onclick="sortBy('pct',this)">Progress</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <div class="tfooter">
+      <span>Showing <b id="tf-count">0</b> students</span>
+      <span>Outstanding: <b id="tf-outstanding">₹0</b></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: ADD STUDENT ═══ -->
+<div class="overlay" id="addModal" onclick="bgClose(event,'addModal')">
+<div class="modal">
+  <div class="mhead">
+    <div><div class="mtitle">Add New Student</div><div class="msub">Enter fee details for the new student</div></div>
+    <button class="mclose" onclick="closeM('addModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="fgrid">
+    <div class="frow">
+      <label class="flabel">Full Name *</label>
+      <input class="finput" id="a-name" placeholder="e.g. Arjun Kumar" oninput="clearErr('a-err-name')"/>
+      <div class="ferr" id="a-err-name">Please enter student name</div>
+    </div>
+    <div class="frow">
+      <label class="flabel">Class / Section *</label>
+      <select class="fselect" id="a-class">
+        <option>Class 6-A</option><option>Class 6-B</option><option>Class 6-C</option>
+        <option>Class 7-A</option><option>Class 7-B</option><option>Class 7-C</option>
+        <option>Class 8-A</option><option>Class 8-B</option><option>Class 8-C</option>
+        <option>Class 9-A</option><option>Class 9-B</option><option>Class 9-C</option>
+        <option>Class 10-A</option><option>Class 10-B</option><option>Class 10-C</option>
+      </select>
+    </div>
+  </div>
+  <div class="fgrid">
+    <div class="frow">
+      <label class="flabel">Total Fee (₹) *</label>
+      <input class="finput" id="a-fee" type="number" min="0" placeholder="15000" oninput="clearErr('a-err-fee')"/>
+      <div class="ferr" id="a-err-fee">Enter a valid fee amount</div>
+    </div>
+    <div class="frow">
+      <label class="flabel">Amount Paid (₹)</label>
+      <input class="finput" id="a-paid" type="number" min="0" placeholder="0"/>
+    </div>
+  </div>
+  <div class="fgrid">
+    <div class="frow">
+      <label class="flabel">Due Date *</label>
+      <input class="finput" id="a-due" type="date" oninput="clearErr('a-err-due')"/>
+      <div class="ferr" id="a-err-due">Please select a due date</div>
+    </div>
+    <div class="frow">
+      <label class="flabel">Parent Phone</label>
+      <input class="finput" id="a-phone" type="tel" placeholder="+91 98765 43210"/>
+    </div>
+  </div>
+  <div class="frow">
+    <label class="flabel">Parent / Guardian Name</label>
+    <input class="finput" id="a-parent" placeholder="e.g. Mr. Ramesh Kumar"/>
+  </div>
+  <div class="mactions">
+    <button class="btn btn-ghost" onclick="closeM('addModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addStudent()"><i class="fa-solid fa-user-plus"></i> Add Student</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══ MODAL: EDIT STUDENT ═══ -->
+<div class="overlay" id="editModal" onclick="bgClose(event,'editModal')">
+<div class="modal">
+  <div class="mhead">
+    <div><div class="mtitle">Edit Student</div><div class="msub" id="em-sub">Update student information</div></div>
+    <button class="mclose" onclick="closeM('editModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="edit-section">
+    <div class="edit-section-title">Student Info</div>
+    <div class="fgrid">
+      <div class="frow">
+        <label class="flabel">Full Name *</label>
+        <input class="finput" id="e-name" placeholder="Student name" oninput="clearErr('e-err-name')"/>
+        <div class="ferr" id="e-err-name">Please enter student name</div>
+      </div>
+      <div class="frow">
+        <label class="flabel">Class / Section</label>
+        <select class="fselect" id="e-class">
+          <option>Class 6-A</option><option>Class 6-B</option><option>Class 6-C</option>
+          <option>Class 7-A</option><option>Class 7-B</option><option>Class 7-C</option>
+          <option>Class 8-A</option><option>Class 8-B</option><option>Class 8-C</option>
+          <option>Class 9-A</option><option>Class 9-B</option><option>Class 9-C</option>
+          <option>Class 10-A</option><option>Class 10-B</option><option>Class 10-C</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="edit-section">
+    <div class="edit-section-title">Fee Details</div>
+    <div class="fgrid">
+      <div class="frow">
+        <label class="flabel">Total Fee (₹) *</label>
+        <input class="finput" id="e-fee" type="number" min="0" oninput="clearErr('e-err-fee')"/>
+        <div class="ferr" id="e-err-fee">Enter a valid fee amount</div>
+      </div>
+      <div class="frow">
+        <label class="flabel">Amount Paid (₹)</label>
+        <input class="finput" id="e-paid" type="number" min="0"/>
+      </div>
+    </div>
+    <div class="frow">
+      <label class="flabel">Due Date *</label>
+      <input class="finput" id="e-due" type="date"/>
+    </div>
+  </div>
+  <div class="edit-section">
+    <div class="edit-section-title">Parent Info</div>
+    <div class="fgrid">
+      <div class="frow">
+        <label class="flabel">Parent Name</label>
+        <input class="finput" id="e-parent" placeholder="Guardian name"/>
+      </div>
+      <div class="frow">
+        <label class="flabel">Phone</label>
+        <input class="finput" id="e-phone" type="tel" placeholder="+91 …"/>
+      </div>
+    </div>
+  </div>
+  <div class="mactions">
+    <button class="btn btn-ghost" onclick="closeM('editModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="saveEdit()"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══ MODAL: DELETE CONFIRM ═══ -->
+<div class="overlay" id="deleteModal" onclick="bgClose(event,'deleteModal')">
+<div class="modal" style="max-width:400px">
+  <div class="mhead">
+    <div><div class="mtitle">Delete Student</div><div class="msub">This action cannot be undone</div></div>
+    <button class="mclose" onclick="closeM('deleteModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="confirm-icon">🗑️</div>
+  <p style="text-align:center;color:var(--text2);font-size:.88rem;margin-bottom:1.5rem">Are you sure you want to remove <b id="del-name" style="color:var(--text)"></b> from the records?</p>
+  <div class="mactions" style="justify-content:center">
+    <button class="btn btn-ghost" onclick="closeM('deleteModal')">Cancel</button>
+    <button class="btn btn-danger" onclick="confirmDelete()"><i class="fa-solid fa-trash"></i> Delete Student</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══ MODAL: REMINDER ═══ -->
+<div class="overlay" id="reminderModal" onclick="bgClose(event,'reminderModal')">
+<div class="modal">
+  <div class="mhead">
+    <div>
+      <div class="mtitle" id="rm-title">Send Reminder</div>
+      <div class="msub" id="rm-sub">Gemini AI-powered personalized fee reminder</div>
+    </div>
+    <button class="mclose" onclick="closeM('reminderModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="ic-label">Amount Due</div>
+      <div class="ic-val" id="rm-due" style="color:var(--red)">—</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Amount Paid</div>
+      <div class="ic-val" id="rm-paid" style="color:var(--green)">—</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Due Date</div>
+      <div class="ic-val" id="rm-date" style="color:var(--yellow)">—</div>
+    </div>
+  </div>
+  <div class="fgrid">
+    <div class="frow">
+      <label class="flabel">Message Tone</label>
+      <select class="fselect" id="rm-tone" onchange="generateMsg()">
+        <option value="polite">Polite & Friendly</option>
+        <option value="urgent">Urgent</option>
+        <option value="firm">Firm & Professional</option>
+        <option value="gentle">Gentle Reminder</option>
+        <option value="hindi">Hinglish (Hindi+English)</option>
+      </select>
+    </div>
+    <div class="frow">
+      <label class="flabel">Channel</label>
+      <select class="fselect" id="rm-channel" onchange="generateMsg()">
+        <option value="whatsapp">WhatsApp</option>
+        <option value="sms">SMS</option>
+        <option value="email">Email</option>
+      </select>
+    </div>
+  </div>
+  <div style="margin-bottom:.75rem">
+    <label class="flabel">Gemini Model</label>
+    <div class="model-pills">
+      <button class="model-pill active" onclick="setModel('gemini-2.0-flash',this)">2.0 Flash ⚡</button>
+      <button class="model-pill" onclick="setModel('gemini-1.5-flash',this)">1.5 Flash</button>
+      <button class="model-pill" onclick="setModel('gemini-1.5-pro',this)">1.5 Pro</button>
+    </div>
+  </div>
+  <div class="ai-panel">
+    <div class="ai-panel-hdr">
+      <div class="ai-panel-title">
+        <span style="background:linear-gradient(135deg,#4285F4,#EA4335,#FBBC05,#34A853);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.9rem">✦</span>
+        Gemini Generated Message
+      </div>
+      <div class="api-warn" id="rm-api-warn"><i class="fa-solid fa-triangle-exclamation"></i> No key — using template</div>
+    </div>
+    <div class="ai-msg" id="rm-msg">
+      <div class="ai-loading"><div class="dots"><span></span><span></span><span></span><span></span></div><span style="color:var(--text3);font-size:.8rem">Generating message…</span></div>
+    </div>
+    <div id="rm-char" class="char-count"></div>
+    <div class="ai-actions">
+      <button class="btn-ai-act" onclick="copyRm()"><i class="fa-regular fa-copy"></i> Copy</button>
+      <button class="btn-ai-act" onclick="generateMsg()"><i class="fa-solid fa-rotate"></i> Regenerate</button>
+      <button class="btn-ai-act wa" onclick="openWA()"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i> WhatsApp</button>
+      <button class="btn-ai-act" onclick="openSMS()"><i class="fa-solid fa-comment-sms"></i> SMS</button>
+    </div>
+  </div>
+  <div class="mactions">
+    <button class="btn btn-ghost" onclick="closeM('reminderModal')">Close</button>
+    <button class="btn btn-primary" onclick="markSent()"><i class="fa-solid fa-paper-plane"></i> Mark as Sent</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══ MODAL: MARK PAID ═══ -->
+<div class="overlay" id="payModal" onclick="bgClose(event,'payModal')">
+<div class="modal">
+  <div class="mhead">
+    <div><div class="mtitle">Record Payment</div><div class="msub" id="pm-sub">Update fee payment</div></div>
+    <button class="mclose" onclick="closeM('payModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="pay-grid">
+    <div class="info-card">
+      <div class="ic-label">Total Fee</div>
+      <div class="ic-val" id="pm-total" style="color:var(--text)">—</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Already Paid</div>
+      <div class="ic-val" id="pm-paid" style="color:var(--green)">—</div>
+    </div>
+  </div>
+  <div class="info-card" style="margin-bottom:12px">
+    <div class="ic-label">Remaining Balance</div>
+    <div class="ic-val" id="pm-remaining" style="color:var(--red)">—</div>
+  </div>
+  <div class="frow">
+    <label class="flabel">Payment Amount (₹) *</label>
+    <input class="finput" id="pm-amount" type="number" min="0" placeholder="Enter payment amount" oninput="updatePayPreview()"/>
+    <div class="ferr" id="pm-err">Please enter a valid amount</div>
+    <div id="pm-preview" style="font-size:.75rem;color:var(--green);margin-top:4px;display:none"></div>
+  </div>
+  <div class="frow">
+    <label class="flabel">Payment Mode</label>
+    <select class="fselect" id="pm-mode">
+      <option>Cash</option><option>UPI / GPay</option><option>PhonePe</option>
+      <option>NEFT / RTGS</option><option>Cheque</option><option>DD</option><option>Online Portal</option>
+    </select>
+  </div>
+  <div class="frow">
+    <label class="flabel">Receipt / Reference No.</label>
+    <input class="finput" id="pm-ref" placeholder="e.g. TXN123456 (optional)"/>
+  </div>
+  <div class="frow">
+    <label class="flabel">Payment Date</label>
+    <input class="finput" id="pm-date" type="date"/>
+  </div>
+  <div class="mactions">
+    <button class="btn btn-ghost" onclick="closeM('payModal')">Cancel</button>
+    <button class="btn btn-primary" onclick="recordPayment()"><i class="fa-solid fa-indian-rupee-sign"></i> Record Payment</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══ MODAL: BULK AI ═══ -->
+<div class="overlay" id="bulkModal" onclick="bgClose(event,'bulkModal')">
+<div class="modal">
+  <div class="mhead">
+    <div>
+      <div class="mtitle">Gemini AI Bulk Reminders</div>
+      <div class="msub">Generate personalized reminders for multiple students</div>
+    </div>
+    <button class="mclose" onclick="closeM('bulkModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="fgrid">
+    <div class="frow">
+      <label class="flabel">Target Students</label>
+      <select class="fselect" id="bk-filter" onchange="refreshBulk()">
+        <option value="overdue">Overdue Only</option>
+        <option value="pending">Pending Only</option>
+        <option value="both" selected>Overdue + Pending</option>
+      </select>
+    </div>
+    <div class="frow">
+      <label class="flabel">Message Tone</label>
+      <select class="fselect" id="bk-tone">
+        <option value="polite">Polite & Friendly</option>
+        <option value="urgent">Urgent</option>
+        <option value="firm">Firm & Professional</option>
+        <option value="hindi">Hinglish</option>
+      </select>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:var(--text3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between">
+    <span>Students to remind</span>
+    <span id="bk-count-label" style="color:var(--accent)"></span>
+  </div>
+  <div class="bulk-list" id="bk-list"></div>
+  <div id="bk-ai" class="ai-panel" style="display:none;margin-top:0">
+    <div class="ai-panel-hdr">
+      <div class="ai-panel-title">
+        <span style="background:linear-gradient(135deg,#4285F4,#EA4335,#FBBC05,#34A853);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.9rem">✦</span>
+        Gemini Bulk Summary
+      </div>
+    </div>
+    <div class="ai-msg" id="bk-msg"></div>
+    <div class="ai-actions">
+      <button class="btn-ai-act" onclick="copyBulk()"><i class="fa-regular fa-copy"></i> Copy Summary</button>
+    </div>
+  </div>
+  <div class="mactions">
+    <button class="btn btn-ghost" onclick="closeM('bulkModal')">Cancel</button>
+    <button class="btn btn-gemini" id="bk-btn" onclick="sendBulk()"><i class="fa-solid fa-robot"></i> Generate & Send All</button>
+  </div>
+</div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"><i id="toast-icon" class="fa-solid fa-circle-check"></i><span id="toast-msg">Done!</span></div>
+
+<script>
+'use strict';
+
+// ─── PALETTES ────────────────────────────────────────────────────
+const AVATAR_PALETTES = [
+  ['#5b72f0','rgba(91,114,240,.18)'],['#9b6df5','rgba(155,109,245,.18)'],
+  ['#0fd98b','rgba(15,217,139,.18)'],['#f5c518','rgba(245,197,24,.18)'],
+  ['#38c4fb','rgba(56,196,251,.18)'],['#ff7043','rgba(255,112,67,.18)'],
+  ['#e91e8c','rgba(233,30,140,.18)'],['#00bcd4','rgba(0,188,212,.18)'],
+];
+
+// ─── STATE ───────────────────────────────────────────────────────
+let students = [
+  {id:1,  name:"Aarav Sharma",   cls:"Class 7-A", fee:12000, paid:12000, due:"2025-03-15", phone:"", parent:"Mr. Vikram Sharma",    reminded:false},
+  {id:2,  name:"Priya Gupta",    cls:"Class 6-B", fee:10500, paid:0,     due:"2025-02-28", phone:"", parent:"Mrs. Sunita Gupta",    reminded:false},
+  {id:3,  name:"Rohan Mehta",    cls:"Class 8-C", fee:13500, paid:5000,  due:"2025-04-10", phone:"", parent:"Mr. Deepak Mehta",     reminded:false},
+  {id:4,  name:"Sneha Patel",    cls:"Class 7-A", fee:12000, paid:12000, due:"2025-03-15", phone:"", parent:"Mrs. Rekha Patel",     reminded:false},
+  {id:5,  name:"Karan Joshi",    cls:"Class 9-B", fee:15000, paid:7500,  due:"2025-03-01", phone:"", parent:"Mr. Suresh Joshi",     reminded:false},
+  {id:6,  name:"Ananya Singh",   cls:"Class 6-A", fee:10500, paid:10500, due:"2025-03-20", phone:"", parent:"Mr. Rajiv Singh",      reminded:false},
+  {id:7,  name:"Dev Verma",      cls:"Class 8-B", fee:13500, paid:0,     due:"2025-02-20", phone:"", parent:"Mrs. Kavita Verma",    reminded:false},
+  {id:8,  name:"Meera Nair",     cls:"Class 7-C", fee:12000, paid:6000,  due:"2025-04-05", phone:"", parent:"Mr. Sanjay Nair",      reminded:false},
+  {id:9,  name:"Arjun Rao",      cls:"Class 9-A", fee:15000, paid:15000, due:"2025-03-10", phone:"", parent:"Mrs. Prema Rao",       reminded:false},
+  {id:10, name:"Kavya Iyer",     cls:"Class 6-C", fee:10500, paid:3500,  due:"2025-03-25", phone:"", parent:"Mr. Krishnan Iyer",    reminded:false},
+  {id:11, name:"Siddharth Das",  cls:"Class 8-A", fee:13500, paid:0,     due:"2025-02-25", phone:"", parent:"Mrs. Mamata Das",      reminded:false},
+  {id:12, name:"Nisha Reddy",    cls:"Class 7-B", fee:12000, paid:12000, due:"2025-03-15", phone:"", parent:"Mr. Venkat Reddy",     reminded:false},
+  {id:13, name:"Vivek Tiwari",   cls:"Class 9-C", fee:15000, paid:3000,  due:"2025-03-05", phone:"", parent:"Mrs. Geeta Tiwari",    reminded:false},
+  {id:14, name:"Pooja Saxena",   cls:"Class 6-A", fee:10500, paid:10500, due:"2025-03-18", phone:"", parent:"Mr. Anil Saxena",      reminded:false},
+  {id:15, name:"Harsh Agarwal",  cls:"Class 8-C", fee:13500, paid:9000,  due:"2025-04-12", phone:"", parent:"Mrs. Shalini Agarwal", reminded:false},
+];
+let nextId      = 16;
+let filter      = 'all';
+let sortKey     = '';
+let sortDir     = 1;
+let activeId    = null;
+let deleteId    = null;
+let currentMsg  = '';
+let apiKey      = '';
+let geminiModel = 'gemini-2.0-flash';
+
+// ─── HELPERS ─────────────────────────────────────────────────────
+function getStatus(s){
+  if(s.paid >= s.fee) return 'paid';
+  const t = new Date(); t.setHours(0,0,0,0);
+  return new Date(s.due) < t ? 'overdue' : 'pending';
+}
+const INR      = n => '₹' + Number(n).toLocaleString('en-IN');
+const fmtDate  = d => new Date(d).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+const initials = n => { const p=n.trim().split(' '); return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase(); };
+const pal      = id => AVATAR_PALETTES[id % AVATAR_PALETTES.length];
+const pgColor  = p => p>=100?'#0fd98b':p>=50?'#f5c518':'#ff4565';
+const daysDiff = d => Math.round((new Date(d)-new Date())/86400000);
+const today    = () => new Date().toISOString().split('T')[0];
+
+// ─── GEMINI API KEY ───────────────────────────────────────────────
+async function saveApiKey(){
+  const v = document.getElementById('apiKeyInput').value.trim();
+  if(!v){ toast('Please paste your Gemini API key','e'); return; }
+  if(!v.startsWith('AIza')){ toast('Key must start with AIza — get one at aistudio.google.com/apikey','e'); return; }
+
+  toast('Testing connection…','i');
+  try {
+    const ok = await testKey(v);
+    if(ok){
+      apiKey = v;
+      document.getElementById('api-banner').innerHTML = `
+        <div class="api-banner-icon"><span class="gemini-g">G</span></div>
+        <div class="api-banner-text">
+          <strong>✅ Gemini AI Connected & Working!</strong>
+          <span>Using model: <b>${geminiModel}</b> · Auto-fallback enabled · Key in browser memory only</span>
+        </div>
+        <div class="api-key-connected"><i class="fa-solid fa-circle-check"></i> Connected</div>
+        <button class="btn btn-ghost btn-sm" onclick="disconnectApi()"><i class="fa-solid fa-plug-circle-xmark"></i> Disconnect</button>
+      `;
+      document.getElementById('gemini-badge').style.display='flex';
+      toast('Gemini AI connected! 🎉 Open any reminder to try it.','s');
+    }
+  } catch(e) {
+    // Show error only in the banner — no separate error box
+    document.getElementById('api-banner').innerHTML = `
+      <div class="api-banner-icon"><span style="color:var(--red);font-size:1.1rem">⚠</span></div>
+      <div class="api-banner-text">
+        <strong style="color:var(--red)">Connection Failed</strong>
+        <span style="color:var(--text3)">${e.message.replace(/\n/g,'<br>')}</span>
+      </div>
+      <div class="api-key-form">
+        <input class="api-key-input" id="apiKeyInput" type="password" placeholder="Try a different key…"/>
+        <button class="btn btn-gemini btn-sm" onclick="saveApiKey()"><i class="fa-solid fa-plug"></i> Retry</button>
+      </div>
+    `;
+    toast('Connection failed — check the banner for details','e');
+  }
+}
+
+async function testKey(key){
+  const testModels = ['gemini-1.5-flash','gemini-1.5-flash-8b','gemini-1.5-pro','gemini-2.0-flash'];
+  let lastStatus = null, lastMsg = '';
+
+  for(const model of testModels){
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+    let res;
+    try {
+      res = await fetch(url, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          contents:[{role:'user',parts:[{text:'Reply OK'}]}],
+          generationConfig:{maxOutputTokens:5}
+        })
+      });
+    } catch(e) {
+      const err = new Error('Network error — check your internet connection.');
+      err.code = 'NETWORK'; throw err;
+    }
+    const data = await res.json();
+    if(res.ok){ geminiModel = model; return model; }
+    lastStatus = res.status;
+    lastMsg = data?.error?.message || '';
+    if(res.status === 403 || res.status === 400) break;
+  }
+
+  if(lastStatus === 400){
+    const err = new Error('Invalid API Key (400) — copy the full key from aistudio.google.com/apikey');
+    err.code = '400'; throw err;
+  }
+  if(lastStatus === 403){
+    const err = new Error('Permission Denied (403) — enable "Generative Language API" in Google Cloud Console');
+    err.code = '403'; throw err;
+  }
+  if(lastStatus === 429){
+    const err = new Error('Rate Limit Exceeded (429) — wait a few minutes and try again, or create a new API key at aistudio.google.com/apikey');
+    err.code = '429'; throw err;
+  }
+  const err = new Error('Error ' + lastStatus + ': ' + lastMsg);
+  err.code = String(lastStatus); throw err;
+}
+
+function disconnectApi(){
+  apiKey = '';
+  document.getElementById('gemini-badge').style.display='none';
+  document.getElementById('api-banner').innerHTML = `
+    <div class="api-banner-icon"><span class="gemini-g">G</span></div>
+    <div class="api-banner-text">
+      <strong>Connect Google Gemini AI</strong>
+      <span>Paste your key from <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--gemini)">aistudio.google.com/apikey</a> — stored only in browser memory</span>
+    </div>
+    <div class="api-key-form">
+      <input class="api-key-input" id="apiKeyInput" type="password" placeholder="AIza… paste your Gemini API key here"/>
+      <button class="btn btn-gemini btn-sm" onclick="saveApiKey()"><i class="fa-solid fa-plug"></i> Connect & Test</button>
+    </div>
+  `;
+  toast('Gemini disconnected','i');
+}
+
+function setModel(m, btn){
+  geminiModel = m;
+  document.querySelectorAll('.model-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── GEMINI API CALL WITH AUTO-FALLBACK ──────────────────────────
+const MODEL_FALLBACK_CHAIN = [
+  'gemini-1.5-flash',
+  'gemini-1.5-flash-8b',
+  'gemini-1.5-pro',
+  'gemini-2.0-flash',
+];
+
+async function callGeminiModel(modelId, prompt){
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        contents: [{role:'user', parts:[{text:prompt}]}],
+        generationConfig: {temperature:0.85, maxOutputTokens:900, topP:0.95}
+      })
+    });
+  } catch(e) {
+    throw {code:'NETWORK', message:'Network error — check internet connection.'};
+  }
+  const data = await res.json();
+  if(!res.ok){
+    throw {code: String(res.status), message: data?.error?.message||'', status: res.status};
+  }
+  const parts = data?.candidates?.[0]?.content?.parts;
+  if(!parts || !parts.length) throw {code:'EMPTY', message:'No content returned'};
+  const text = parts.map(p=>p.text||'').join('').trim();
+  if(!text) throw {code:'EMPTY', message:'Empty response'};
+  return text;
+}
+
+async function callGemini(prompt){
+  const preferred = geminiModel;
+  const chain = [preferred, ...MODEL_FALLBACK_CHAIN.filter(m=>m!==preferred)];
+
+  let lastErr = null;
+  for(const modelId of chain){
+    try {
+      const text = await callGeminiModel(modelId, prompt);
+      if(modelId !== geminiModel){
+        const badge = document.getElementById('gemini-badge');
+        if(badge) badge.querySelector('span').textContent = `Gemini (${modelId})`;
+      }
+      return text;
+    } catch(e) {
+      lastErr = e;
+      if(e.status===429 || e.status===404 || e.code==='EMPTY') continue;
+      break;
+    }
+  }
+
+  const e = lastErr;
+  if(e.status===429) throw new Error('Rate limit exceeded — wait a few minutes or try a new API key.');
+  if(e.status===403) throw new Error('Permission denied (403) — enable "Generative Language API" in Google Cloud Console');
+  if(e.status===400) throw new Error('Invalid API key — get a fresh one at aistudio.google.com/apikey');
+  if(e.code==='NETWORK') throw new Error(e.message);
+  throw new Error(`Gemini error: ${e.message||JSON.stringify(e)}`);
+}
+
+// ─── FALLBACK TEMPLATES (when no API key) ────────────────────────
+function getTemplate(s, tone){
+  const due  = Math.max(0, s.fee - s.paid);
+  const dd   = daysDiff(s.due);
+  const ddTxt= dd<0 ? `${Math.abs(dd)} days overdue` : `due in ${dd} days`;
+  const parent = s.parent || 'Parent/Guardian';
+
+  const templates = {
+    polite:
+`Dear ${parent},
+
+We hope this message finds you well. This is a gentle reminder regarding the school fees for ${s.name} (${s.cls}) at Greenfield Public School for Academic Year 2025-26.
+
+Kindly note that ₹${due.toLocaleString('en-IN')} is ${ddTxt}. We request you to clear the outstanding amount at your earliest convenience to avoid any disruption in your child's academic activities.
+
+For queries, please contact the school office. Thank you for your cooperation.
+
+Warm regards,
+Greenfield Public School Administration`,
+
+    urgent:
+`URGENT NOTICE — Dear Parent/Guardian of ${s.name},
+
+This is an urgent reminder regarding the overdue school fee for ${s.name} (${s.cls}).
+
+Outstanding Amount: ₹${due.toLocaleString('en-IN')} — ${ddTxt}.
+
+Immediate payment is required to avoid suspension of academic services and examination access. Please pay within 48 hours or contact the office.
+
+Greenfield Public School Administration`,
+
+    firm:
+`Respected ${parent},
+
+This is a formal notice regarding the pending fee for ${s.name}, ${s.cls}.
+
+Fee Amount Due: ₹${due.toLocaleString('en-IN')} — ${ddTxt}.
+
+Kindly note that continuation of academic services, including examination admission and report cards, is subject to fee clearance. Please settle the outstanding amount within 7 working days.
+
+Greenfield Public School`,
+
+    gentle:
+`Dear ${parent},
+
+We hope ${s.name} is doing wonderfully at school! We just wanted to send a friendly reminder about the pending fee of ₹${due.toLocaleString('en-IN')} which is ${ddTxt}.
+
+We completely understand that payments can sometimes get delayed. If you need any assistance or wish to arrange an installment plan, please do reach out — we are happy to help!
+
+With warm regards,
+Greenfield Public School Family`,
+
+    hindi:
+`Namaste ${parent.replace(/Mr\.|Mrs\.|Ms\./g,'').trim()} Ji,
+
+Greenfield Public School ki taraf se aapko suchit kiya jaata hai ki ${s.name} (${s.cls}) ki fees ₹${due.toLocaleString('en-IN')} abhi baaki hai — ${ddTxt}.
+
+Kripya jald se jald fees jama karein taaki koi pareshani na ho. Kisi bhi sawal ke liye school office se sampark karein.
+
+Dhanyawad,
+Greenfield Public School`
+  };
+  return templates[tone] || templates.polite;
+}
+
+// ─── STATS ────────────────────────────────────────────────────────
+function updateStats(){
+  const paidList    = students.filter(s=>getStatus(s)==='paid');
+  const overList    = students.filter(s=>getStatus(s)==='overdue');
+  const notPaid     = students.filter(s=>getStatus(s)!=='paid');
+  const collected   = students.reduce((a,s)=>a+s.paid,0);
+  const outstanding = students.reduce((a,s)=>a+Math.max(0,s.fee-s.paid),0);
+  const totalFee    = students.reduce((a,s)=>a+s.fee,0);
+  const pct         = totalFee ? Math.round((collected/totalFee)*100) : 0;
+
+  document.getElementById('s-total').textContent       = students.length;
+  document.getElementById('s-paid').textContent        = INR(collected);
+  document.getElementById('s-paid-sub').textContent    = paidList.length+' students fully paid';
+  document.getElementById('s-outstanding').textContent = INR(outstanding);
+  document.getElementById('s-pend-sub').textContent    = notPaid.length+' students due';
+  document.getElementById('s-overdue').textContent     = overList.length;
+  document.getElementById('cbar-fill').style.width     = pct+'%';
+  document.getElementById('cbar-pct').textContent      = pct+'%';
+  document.getElementById('cbar-val').textContent      = INR(collected)+' of '+INR(totalFee);
+}
+
+// ─── TABLE ────────────────────────────────────────────────────────
+function renderTable(){
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  let rows = students.map(s=>({...s, status:getStatus(s), pct:Math.min(100,Math.round((s.paid/s.fee)*100))}));
+  if(filter!=='all') rows = rows.filter(s=>s.status===filter);
+  if(q) rows = rows.filter(s=>s.name.toLowerCase().includes(q)||s.cls.toLowerCase().includes(q));
+  if(sortKey){
+    rows.sort((a,b)=>{
+      let av=a[sortKey],bv=b[sortKey];
+      if(typeof av==='string'){av=av.toLowerCase();bv=bv.toLowerCase();}
+      return (av<bv?-1:av>bv?1:0)*sortDir;
+    });
+  }
+  document.getElementById('count-chip').textContent = rows.length;
+  const tbody = document.getElementById('tbody');
+  if(!rows.length){
+    tbody.innerHTML=`<tr class="empty-row"><td colspan="6"><div class="empty-icon"><i class="fa-solid fa-magnifying-glass"></i></div>No students found</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map((s,i)=>{
+      const [ac,ab] = pal(s.id);
+      const icon = s.status==='paid'?'fa-check':s.status==='overdue'?'fa-triangle-exclamation':'fa-clock';
+      const lbl  = s.status.charAt(0).toUpperCase()+s.status.slice(1);
+      const dueAmt = Math.max(0,s.fee-s.paid);
+      const dd = daysDiff(s.due);
+      const ddText = dd<0
+        ? `<span style="color:var(--red);font-size:.7rem">${Math.abs(dd)}d overdue</span>`
+        : `<span style="color:var(--text3);font-size:.7rem">${dd}d left</span>`;
+      return `<tr style="animation:fadeUp .3s ${i*.025}s both">
+        <td><div class="sc">
+          <div class="avatar" style="background:${ab};color:${ac}">${initials(s.name)}</div>
+          <div><div class="sname">${s.name}</div><div class="scls">${s.cls}${s.parent?' · '+s.parent:''}</div></div>
+        </div></td>
+        <td>
+          <div class="amt">${INR(s.fee)}</div>
+          ${dueAmt>0?`<div class="amt-due">Due: ${INR(dueAmt)}</div>`:`<div class="amt-due" style="color:var(--green)">Fully paid ✓</div>`}
+        </td>
+        <td><div style="font-size:.82rem;color:var(--text2)">${fmtDate(s.due)}</div>${ddText}</td>
+        <td><span class="badge ${s.status}"><i class="fa-solid ${icon}"></i>${lbl}</span></td>
+        <td><div class="pgwrap">
+          <div class="pgbar"><div class="pgfill" style="width:${s.pct}%;background:${pgColor(s.pct)}"></div></div>
+          <span class="pgpct">${s.pct}%</span>
+        </div></td>
+        <td><div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+          ${s.status==='paid'
+            ? `<button class="btn-done-d"><i class="fa-solid fa-check"></i> Paid</button>`
+            : `<button class="btn-remind ${s.reminded?'btn-reminded':''}" onclick="openReminder(${s.id})">
+                 <i class="fa-solid ${s.reminded?'fa-rotate':'fa-paper-plane'}"></i>${s.reminded?'Re-remind':'Remind'}
+               </button>
+               <button class="btn-pay" onclick="openPayModal(${s.id})"><i class="fa-solid fa-indian-rupee-sign"></i> Pay</button>`}
+          <button class="btn-del" onclick="openEditModal(${s.id})" title="Edit"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn-del" onclick="openDeleteModal(${s.id})" title="Delete"><i class="fa-solid fa-trash"></i></button>
+        </div></td>
+      </tr>`;
+    }).join('');
+  }
+  const outstanding = rows.reduce((a,s)=>a+Math.max(0,s.fee-s.paid),0);
+  document.getElementById('tf-count').textContent       = rows.length;
+  document.getElementById('tf-outstanding').textContent = INR(outstanding);
+}
+
+function setFilter(f,btn){
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function sortBy(key,th){
+  if(sortKey===key) sortDir*=-1; else {sortKey=key;sortDir=1;}
+  document.querySelectorAll('th').forEach(t=>t.className='');
+  th.className = sortDir===1?'sort-asc':'sort-desc';
+  renderTable();
+}
+
+// ─── MODALS ───────────────────────────────────────────────────────
+const openM  = id => document.getElementById(id).classList.add('open');
+const closeM = id => document.getElementById(id).classList.remove('open');
+function bgClose(e,id){ if(e.target.classList.contains('overlay')) closeM(id); }
+function clearErr(id){ document.getElementById(id).classList.remove('show'); }
+
+// ─── ADD STUDENT ──────────────────────────────────────────────────
+function openAddModal(){
+  const d = new Date(); d.setDate(d.getDate()+30);
+  document.getElementById('a-due').value = d.toISOString().split('T')[0];
+  ['a-name','a-fee','a-paid','a-phone','a-parent'].forEach(id=>document.getElementById(id).value='');
+  ['a-err-name','a-err-fee','a-err-due'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  openM('addModal');
+}
+
+function addStudent(){
+  const name  = document.getElementById('a-name').value.trim();
+  const cls   = document.getElementById('a-class').value;
+  const fee   = parseInt(document.getElementById('a-fee').value)||0;
+  const paid  = parseInt(document.getElementById('a-paid').value)||0;
+  const due   = document.getElementById('a-due').value;
+  const phone = document.getElementById('a-phone').value.trim();
+  const parent= document.getElementById('a-parent').value.trim();
+  let ok=true;
+  if(!name){document.getElementById('a-err-name').classList.add('show');ok=false;}
+  if(fee<=0){document.getElementById('a-err-fee').classList.add('show');ok=false;}
+  if(!due){document.getElementById('a-err-due').classList.add('show');ok=false;}
+  if(!ok) return;
+  if(paid>fee){toast('Paid amount cannot exceed total fee','e');return;}
+  students.push({id:nextId++,name,cls,fee,paid:Math.min(paid,fee),due,phone,parent,reminded:false});
+  closeM('addModal');
+  updateStats();renderTable();
+  toast(name+' added successfully! 🎉','s');
+}
+
+// ─── EDIT STUDENT ─────────────────────────────────────────────────
+function openEditModal(id){
+  activeId=id;
+  const s=students.find(x=>x.id===id);
+  document.getElementById('em-sub').textContent=s.name+' · '+s.cls;
+  document.getElementById('e-name').value =s.name;
+  document.getElementById('e-class').value=s.cls;
+  document.getElementById('e-fee').value  =s.fee;
+  document.getElementById('e-paid').value =s.paid;
+  document.getElementById('e-due').value  =s.due;
+  document.getElementById('e-parent').value=s.parent;
+  document.getElementById('e-phone').value=s.phone;
+  ['e-err-name','e-err-fee'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  openM('editModal');
+}
+
+function saveEdit(){
+  const s=students.find(x=>x.id===activeId);
+  const name=document.getElementById('e-name').value.trim();
+  const fee =parseInt(document.getElementById('e-fee').value)||0;
+  const paid=parseInt(document.getElementById('e-paid').value)||0;
+  let ok=true;
+  if(!name){document.getElementById('e-err-name').classList.add('show');ok=false;}
+  if(fee<=0){document.getElementById('e-err-fee').classList.add('show');ok=false;}
+  if(!ok) return;
+  if(paid>fee){toast('Paid cannot exceed total fee','e');return;}
+  s.name  =name;
+  s.cls   =document.getElementById('e-class').value;
+  s.fee   =fee;
+  s.paid  =Math.min(paid,fee);
+  s.due   =document.getElementById('e-due').value;
+  s.parent=document.getElementById('e-parent').value.trim();
+  s.phone =document.getElementById('e-phone').value.trim();
+  closeM('editModal');
+  updateStats();renderTable();
+  toast(s.name+' updated successfully!','s');
+}
+
+// ─── DELETE STUDENT ───────────────────────────────────────────────
+function openDeleteModal(id){
+  deleteId=id;
+  const s=students.find(x=>x.id===id);
+  document.getElementById('del-name').textContent=s.name;
+  openM('deleteModal');
+}
+
+function confirmDelete(){
+  const s=students.find(x=>x.id===deleteId);
+  students=students.filter(x=>x.id!==deleteId);
+  closeM('deleteModal');
+  updateStats();renderTable();
+  toast(s.name+' removed from records','i');
+}
+
+// ─── REMINDER ─────────────────────────────────────────────────────
+function openReminder(id){
+  activeId=id;
+  const s=students.find(x=>x.id===id);
+  const due=Math.max(0,s.fee-s.paid);
+  const st=getStatus(s);
+  document.getElementById('rm-title').textContent='Reminder — '+s.name;
+  document.getElementById('rm-sub').textContent  =s.cls+' · '+(st==='overdue'?'⚠ OVERDUE':'Pending');
+  document.getElementById('rm-due').textContent  =INR(due);
+  document.getElementById('rm-paid').textContent =INR(s.paid);
+  document.getElementById('rm-date').textContent =fmtDate(s.due);
+  currentMsg='';
+  document.getElementById('rm-char').textContent='';
+  openM('reminderModal');
+  generateMsg();
+}
+
+function buildPrompt(s,tone,channel){
+  const due    = Math.max(0,s.fee-s.paid);
+  const status = getStatus(s);
+  const dd     = daysDiff(s.due);
+  const ddText = dd<0
+    ? `${Math.abs(dd)} days overdue (was due ${fmtDate(s.due)})`
+    : `due in ${dd} days on ${fmtDate(s.due)}`;
+
+  const toneInstr={
+    polite: "Warm, respectful, and friendly. Express care for the student's education.",
+    urgent: "Very urgent. Emphasize consequences clearly but respectfully. Use phrases like 'immediate action required'.",
+    firm:   "Professional and formal. Mention that exams and report cards depend on fee clearance.",
+    gentle: "Extremely warm and understanding. Offer to arrange installment plans. Show empathy.",
+    hindi:  "Mix Hindi and English (Hinglish). Use 'Namaste', 'Dhanyawad', 'Aapka ward'. Keep it respectful and warm."
+  };
+  const lenInstr={
+    whatsapp:"3-4 sentences, conversational, suitable for WhatsApp.",
+    sms:     "2-3 sentences, very concise.",
+    email:   "4-6 sentences with proper salutation and sign-off."
+  };
+
+  return `You are a school fee reminder assistant for Greenfield Public School, India. Academic Year 2025-26.
+
+Generate a fee reminder message with these details:
+- Student: ${s.name}
+- Parent/Guardian: ${s.parent||'Parent/Guardian'}
+- Class: ${s.cls}
+- Total Fee: ${INR(s.fee)}
+- Amount Paid: ${INR(s.paid)}
+- Amount Due: ${INR(due)}
+- Status: ${status.toUpperCase()} — ${ddText}
+
+Tone: ${toneInstr[tone]||toneInstr.polite}
+Channel: ${lenInstr[channel]||lenInstr.whatsapp}
+
+Rules:
+- Address parent by name
+- Include exact due amount
+- Sign off as "Greenfield Public School Administration"
+- Do NOT use bullet points or markdown
+- Output ONLY the message text, nothing else`;
+}
+
+async function generateMsg(){
+  const s=students.find(x=>x.id===activeId);
+  if(!s) return;
+  const tone   =document.getElementById('rm-tone').value;
+  const channel=document.getElementById('rm-channel').value;
+  const msgEl  =document.getElementById('rm-msg');
+  const warnEl =document.getElementById('rm-api-warn');
+  const charEl =document.getElementById('rm-char');
+
+  msgEl.innerHTML=`<div class="ai-loading"><div class="dots"><span></span><span></span><span></span><span></span></div><span style="color:var(--text3);font-size:.8rem">Gemini is writing…</span></div>`;
+  currentMsg='';
+  charEl.textContent='';
+  warnEl.classList.remove('show');
+
+  if(!apiKey){
+    warnEl.classList.add('show');
+    await new Promise(r=>setTimeout(r,400));
+    currentMsg=getTemplate(s,tone);
+    msgEl.textContent=currentMsg;
+    charEl.textContent=`${currentMsg.length} characters · Template (connect Gemini above for AI-generated)`;
+    return;
+  }
+
+  try{
+    const text=await callGemini(buildPrompt(s,tone,channel));
+    currentMsg=text;
+    msgEl.textContent=currentMsg;
+    charEl.textContent=`${currentMsg.length} characters · ${geminiModel}`;
+  } catch(e){
+    // On error, silently fall back to template
+    currentMsg=getTemplate(s,tone);
+    msgEl.textContent=currentMsg;
+    charEl.textContent=`${currentMsg.length} characters · Template (${e.message.split('\n')[0]})`;
+  }
+}
+
+function copyRm(){
+  if(!currentMsg){toast('No message to copy','e');return;}
+  navigator.clipboard.writeText(currentMsg).then(()=>toast('Copied to clipboard!','s'));
+}
+function openWA(){
+  if(!currentMsg){toast('Generate a message first','e');return;}
+  window.open('https://wa.me/?text='+encodeURIComponent(currentMsg),'_blank');
+}
+function openSMS(){
+  if(!currentMsg){toast('Generate a message first','e');return;}
+  window.open('sms:?body='+encodeURIComponent(currentMsg));
+}
+function markSent(){
+  const s=students.find(x=>x.id===activeId);
+  if(s) s.reminded=true;
+  closeM('reminderModal');
+  renderTable();
+  toast('Reminder marked as sent ✓','s');
+}
+
+// ─── RECORD PAYMENT ───────────────────────────────────────────────
+function openPayModal(id){
+  activeId=id;
+  const s=students.find(x=>x.id===id);
+  const rem=s.fee-s.paid;
+  document.getElementById('pm-sub').textContent      =s.name+' · '+s.cls;
+  document.getElementById('pm-total').textContent    =INR(s.fee);
+  document.getElementById('pm-paid').textContent     =INR(s.paid);
+  document.getElementById('pm-remaining').textContent=INR(rem);
+  document.getElementById('pm-amount').value         ='';
+  document.getElementById('pm-ref').value            ='';
+  document.getElementById('pm-date').value           =today();
+  document.getElementById('pm-preview').style.display='none';
+  document.getElementById('pm-err').classList.remove('show');
+  openM('payModal');
+}
+
+function updatePayPreview(){
+  const s  =students.find(x=>x.id===activeId);
+  const amt=parseInt(document.getElementById('pm-amount').value)||0;
+  const rem=s.fee-s.paid;
+  const pre=document.getElementById('pm-preview');
+  if(amt>0 && amt<=rem){
+    const newRem=rem-amt;
+    pre.style.display='block';
+    pre.textContent=newRem===0?'✓ This will fully clear the balance!':`Balance after payment: ${INR(newRem)}`;
+    pre.style.color=newRem===0?'var(--green)':'var(--yellow)';
+  } else {pre.style.display='none';}
+}
+
+function recordPayment(){
+  const s  =students.find(x=>x.id===activeId);
+  const amt=parseInt(document.getElementById('pm-amount').value)||0;
+  if(amt<=0){document.getElementById('pm-err').classList.add('show');return;}
+  const rem=s.fee-s.paid;
+  if(amt>rem){toast(`Max payable is ${INR(rem)}`,'e');return;}
+  s.paid+=amt;
+  closeM('payModal');
+  updateStats();renderTable();
+  if(s.paid>=s.fee) toast(`${s.name} has fully paid! 🎉`,'s');
+  else toast(`${INR(amt)} recorded for ${s.name}`,'s');
+}
+
+// ─── BULK REMINDERS ───────────────────────────────────────────────
+function openBulkModal(){
+  document.getElementById('bk-ai').style.display='none';
+  document.getElementById('bk-btn').disabled=false;
+  document.getElementById('bk-btn').innerHTML='<i class="fa-solid fa-robot"></i> Generate & Send All';
+  refreshBulk();
+  openM('bulkModal');
+}
+
+function getBulkTargets(){
+  const f=document.getElementById('bk-filter').value;
+  return students.filter(s=>{
+    const st=getStatus(s);
+    if(f==='overdue') return st==='overdue';
+    if(f==='pending') return st==='pending';
+    return st==='overdue'||st==='pending';
+  });
+}
+
+function refreshBulk(){
+  const targets=getBulkTargets();
+  document.getElementById('bk-count-label').textContent=targets.length+' students';
+  const list=document.getElementById('bk-list');
+  if(!targets.length){
+    list.innerHTML='<div style="text-align:center;color:var(--text3);padding:1.5rem;font-size:.82rem">No students match this filter 🎉 All caught up!</div>';
+    return;
+  }
+  list.innerHTML=targets.map(s=>{
+    const [ac,ab]=pal(s.id);
+    const due=Math.max(0,s.fee-s.paid);
+    const st=getStatus(s);
+    return `<div class="bulk-item">
+      <div class="bi-left">
+        <div class="avatar" style="width:28px;height:28px;font-size:.62rem;background:${ab};color:${ac}">${initials(s.name)}</div>
+        <div><div class="bi-name">${s.name}</div><div class="bi-cls">${s.cls}</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="bi-due">${INR(due)}</div>
+        <span class="badge ${st}" style="font-size:.63rem;padding:3px 8px">${st}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function sendBulk(){
+  const targets=getBulkTargets();
+  const tone   =document.getElementById('bk-tone').value;
+  if(!targets.length){toast('No students to remind','i');return;}
+
+  const btn  =document.getElementById('bk-btn');
+  const panel=document.getElementById('bk-ai');
+  const msgEl=document.getElementById('bk-msg');
+
+  btn.disabled=true;
+  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Generating…';
+  panel.style.display='block';
+  msgEl.innerHTML=`<div class="ai-loading"><div class="dots"><span></span><span></span><span></span><span></span></div><span style="color:var(--text3);font-size:.8rem">Gemini is generating bulk summary…</span></div>`;
+
+  const totalOut=targets.reduce((a,s)=>a+Math.max(0,s.fee-s.paid),0);
+  const overList=targets.filter(s=>getStatus(s)==='overdue');
+  const pendList=targets.filter(s=>getStatus(s)==='pending');
+
+  if(!apiKey){
+    await new Promise(r=>setTimeout(r,600));
+    const tmpl=`📋 BULK REMINDER SUMMARY — Greenfield Public School, 2025-26\n\n`+
+      `Total students requiring payment: ${targets.length}\n`+
+      (overList.length?`⚠ Overdue (${overList.length}): ${overList.map(s=>s.name).join(', ')}\n`:'')+
+      (pendList.length?`🕐 Pending (${pendList.length}): ${pendList.map(s=>s.name).join(', ')}\n`:'')+
+      `💰 Total outstanding: ${INR(totalOut)}\n\n`+
+      `📱 SAMPLE ${tone.toUpperCase()} MESSAGE:\n\nDear Parent/Guardian,\n\nThis is a ${tone} reminder from Greenfield Public School regarding pending fees for Academic Year 2025-26. Kindly clear dues at the earliest to ensure uninterrupted access to school facilities.\n\nGreenfield Public School Administration`;
+    msgEl.textContent=tmpl;
+  } else {
+    const list=targets.map(s=>`- ${s.name} (${s.cls}): Due ${INR(Math.max(0,s.fee-s.paid))}, Status: ${getStatus(s)}`).join('\n');
+    const prompt=`You are the admin assistant for Greenfield Public School, India. Academic Year 2025-26.
+
+${targets.length} students have outstanding fees totaling ${INR(totalOut)}.
+
+Student list:
+${list}
+
+Write a response with exactly this format (plain text only, no markdown):
+
+SUMMARY:
+[2-3 sentences summarizing the situation and recommended action]
+
+SAMPLE ${tone.toUpperCase()} MESSAGE:
+[One concise ${tone} WhatsApp broadcast message (3-4 sentences) to send to all parents. Address as "Dear Parent/Guardian". Sign off as Greenfield Public School Administration.]`;
+
+    try{
+      const text=await callGemini(prompt);
+      msgEl.textContent=text;
+    } catch(e){
+      const fallback=`📋 BULK SUMMARY\n\nStudents: ${targets.length} · Outstanding: ${INR(totalOut)}\n`+
+        (overList.length?`Overdue: ${overList.map(s=>s.name).join(', ')}\n`:'')+
+        (pendList.length?`Pending: ${pendList.map(s=>s.name).join(', ')}\n`:'')+
+        `\nNote: ${e.message.split('\n')[0]}`;
+      msgEl.textContent=fallback;
+    }
+  }
+
+  targets.forEach(s=>{const o=students.find(x=>x.id===s.id);if(o) o.reminded=true;});
+  renderTable();
+  toast(`${targets.length} reminders generated ✦`,'s');
+  btn.disabled=false;
+  btn.innerHTML='<i class="fa-solid fa-robot"></i> Generate Again';
+}
+
+function copyBulk(){
+  const t=document.getElementById('bk-msg').textContent;
+  if(!t){toast('Nothing to copy','e');return;}
+  navigator.clipboard.writeText(t).then(()=>toast('Copied!','s'));
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg,type='s'){
+  const el=document.getElementById('toast');
+  const ic=document.getElementById('toast-icon');
+  document.getElementById('toast-msg').textContent=msg;
+  el.className=type;
+  ic.className=type==='s'?'fa-solid fa-circle-check':type==='e'?'fa-solid fa-circle-xmark':'fa-solid fa-circle-info';
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────
+updateStats();
+renderTable();
+</script>
+</body>
+</html>
