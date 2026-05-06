@@ -26,15 +26,15 @@
 
 | 🏠 Dashboard | 👤 Add Student |
 |:---:|:---:|
-| ![Dashboard](screenshots/dashboard.png) | ![Add Student](screenshots/add-student.png) |
+| ![Dashboard](dashboard.png) | ![Add Student](add-student.png) |
 
 | 💳 Record Payment | 📋 Student Records |
 |:---:|:---:|
-| ![Payment](screenshots/payment.png) | ![Records](screenshots/records.png) |
+| ![Payment](payment.png) | ![Records](records.png) |
 
 | 🤖 AI Bulk Reminders |
 |:---:|
-| ![AI Reminders](screenshots/ai-reminders.png) |
+| ![AI Reminders](ai-reminders.png) |
 
 </div>
 
